@@ -19,7 +19,7 @@ class Hobbit {
         this.hasRing = true;
         return "Here is the ring!";
       }
-      if(this.name === "Samwise"){
+      else{
         return "You can't have it!";
       }
     }
