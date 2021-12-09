@@ -23,8 +23,8 @@ Run the command `npm test mythical-creatures/test/unicorn-test.js`. To run other
 - [X] `pirate`
 - [X] `magician`
 - [X] `medusa`
-- [ ] `werewolf`
-- [ ] `centaur`
+- [X] `werewolf`
+- [X] `centaur`
 - [ ] `direwolf`
 - [ ] `fairy`
 - [ ] `ogre`
