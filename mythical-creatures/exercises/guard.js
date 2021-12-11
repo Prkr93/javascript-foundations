@@ -1,9 +1,8 @@
-class Person {
+class Guard {
   constructor(name, socialClass) {
     this.name = name;
-    this.mood = 'frightened';
     this.socialClass = socialClass;
   }
 }
 
-module.exports = Person;
+module.exports = Guard;

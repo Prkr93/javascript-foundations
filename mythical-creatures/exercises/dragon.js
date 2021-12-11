@@ -4,6 +4,7 @@ class Dragon {
     this.rider = rider;
     this.hungry = hungry;
     this.timesEaten = 0;
+    this.alive = true;
   }
   greet(){
     return `Hi, ${this.rider}!`;
