@@ -1,8 +1,8 @@
 class Dragonborn {
-  constructor({name = 'Yyeurgen', race = 'Nord', guilds = []}) {
-    this.name = name;
-    this.race = race;
-    this.guilds = guilds;
+  constructor({name, race, guilds}) {
+    this.name = name || "Yyeurgen";
+    this.race = race || "Nord";
+    this.guilds = guilds || [];
     this.gold = 0;
     this.health = 100;
     this.suspicion = 0;
@@ -13,10 +13,11 @@ class Dragonborn {
     return "The Dragonborn saved us all!!";
   }
   pickPocket(target) {
-    //this.scoutTarget(target);
-    if (target.socialClass !== 'guard' && this.imprisoned === true) {
+    if (this.scoutTarget(target)){
       return `${target.name} isn't here right now.`;
     }
+
+
     if (target.socialClass === 'merchant') {
       //lots of gold, takes some damage and raises suspicion
       this.gold += 100;
@@ -49,7 +50,9 @@ class Dragonborn {
     }
   }
   joinGuild(guild) {
-    this.guilds.push(guild);
+    if (!this.guilds.includes(guild)) {
+      this.guilds.push(guild);
+    }
   }
   riskImprisonment(target = 'null') {
     if (this.suspicion >= 100 || target.socialClass === 'guard') {
@@ -68,7 +71,7 @@ class Dragonborn {
   }
   scoutTarget(target) {
     if (target.socialClass !== 'guard' && this.imprisoned === true) {
-      return `${target.name} isn't here right now.`;
+      return true;
     }
   }
 }

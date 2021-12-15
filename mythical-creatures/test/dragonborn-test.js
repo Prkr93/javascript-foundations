@@ -82,9 +82,6 @@ describe('Dragonborn', function() {
     assert.equal(hanashan.gold, 350);
     assert.deepEqual(hanashan.pickPocket(bernie), `I'll either get rich or die trying!`);
 
-    /*assert.equal(yyeurgen.health, );
-    /*assert.equal(yyeurgen.gold, );
-    /*assert.equal(yyeurgen.health, );*/
   });
 
   it('should gain varying amounts of suspicion after pickpocket', function() {
@@ -171,15 +168,25 @@ describe('Dragonborn', function() {
 
   });
 
-  it.skip('should be able to join a guild', function() {
+  it('should be able to join a guild', function() {
+    var yyeurgen = new Dragonborn({name: 'Yyeurgen'});
 
+    yyeurgen.joinGuild('thieves');
+
+    assert.deepEqual(yyeurgen.guilds, ['thieves']);
   });
 
-  it.skip('should only be able to join a guild once', function() {
+  it('should only be able to join a guild once', function() {
+    var yyeurgen = new Dragonborn({name: 'Yyeurgen'});
 
+    yyeurgen.joinGuild('mages');
+    yyeurgen.joinGuild('mages');
+
+    assert.equal(yyeurgen.guilds.length, 1);
   });
 
   it.skip('should be thrown out of guild if victim is also in guild', function() {
+    var yyeurgen = new Dragonborn({name: 'Yyeurgen'});
 
   });
 
