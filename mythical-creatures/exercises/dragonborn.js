@@ -7,17 +7,22 @@ class Dragonborn {
     this.health = 100;
     this.suspicion = 0;
     this.imprisoned = false;
+    this.alive = true;
   }
   killDragon(dragon) {
+    if (this.alive === false) {
+      return `Our dear ${this.name} has passed.`;
+    }
     dragon.alive = false;
     return "The Dragonborn saved us all!!";
   }
   pickPocket(target) {
+    if (this.alive === false) {
+      return `Our dear ${this.name} has passed.`;
+    }
     if (this.scoutTarget(target)){
       return `${target.name} isn't here right now.`;
     }
-
-
     if (target.socialClass === 'merchant') {
       //lots of gold, takes some damage and raises suspicion
       this.gold += 100;
@@ -45,11 +50,15 @@ class Dragonborn {
       this.riskImprisonment();
     } else if (target.socialClass === 'guard') {
       this.gold += 50;
+      this.health -= 50;
       this.riskImprisonment(target);
       return `Guess I'll be here a while...`;
     }
   }
   joinGuild(guild) {
+    if (this.alive === false) {
+      return `Our dear ${this.name} has passed.`;
+    }
     if (!this.guilds.includes(guild)) {
       this.guilds.push(guild);
     }
@@ -58,22 +67,31 @@ class Dragonborn {
     if (this.suspicion >= 100 || target.socialClass === 'guard') {
       this.imprisoned = true;
     }
+    if (this.health <= 0) {
+      this.alive = false;
+    }
   }
   bribeGuard() {
-    if (this.imprisoned === false) {
+    if (this.alive === false) {
+      return `Our dear ${this.name} has passed.`;
+    }
+    if (!this.imprisoned) {
       return 'You have no reason to bribe a guard!';
     } else if (this.gold < 1000) {
       return `You don't have enough money!`;
     } else {
       this.imprisoned = false;
       this.gold -= 1000;
+      this.suspicion = 0;
     }
   }
   scoutTarget(target) {
-    if (target.socialClass !== 'guard' && this.imprisoned === true) {
+    if (target.socialClass !== 'guard' && this.imprisoned) {
       return true;
     }
   }
 }
+
+
 
 module.exports = Dragonborn;

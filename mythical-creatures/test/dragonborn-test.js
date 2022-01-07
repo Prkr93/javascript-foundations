@@ -129,6 +129,7 @@ describe('Dragonborn', function() {
 
   it('should be able to be released for a certain amount of gold', function() {
     var yyeurgen = new Dragonborn({name: 'Yyeurgen'});
+    var jjorgen = new Dragonborn({name: 'Jjorgen'});
     var bernie = new Person('Bernadette', 'noble');
     var theo = new Guard('Theodore', 'guard');
     var margo = new Person('Margo', 'scholar');
@@ -141,11 +142,26 @@ describe('Dragonborn', function() {
     assert.equal(yyeurgen.gold, 900);
     assert.equal(yyeurgen.imprisoned, true);
     assert.deepEqual(yyeurgen.bribeGuard(), `You don't have enough money!`);
-    yyeurgen.pickPocket(theo);
-    assert.deepEqual(yyeurgen.pickPocket(theo), `Guess I'll be here a while...`);
+
+    jjorgen.pickPocket(bernie);
+    jjorgen.pickPocket(bernie);
+    jjorgen.pickPocket(bernie);
+    jjorgen.bribeGuard();
+    assert.equal(jjorgen.imprisoned, false);
+    assert.equal(jjorgen.gold, 50);
+  });
+
+  it('should reset suspicion upon release', function () {
+    var yyeurgen = new Dragonborn({name: 'Yyeurgen'});
+    var bernie = new Person('Bernadette', 'noble');
+    var theo = new Guard('Theodore', 'guard');
+    var margo = new Person('Margo', 'scholar');
+
+    yyeurgen.pickPocket(bernie);
+    yyeurgen.pickPocket(bernie);
+    yyeurgen.pickPocket(bernie);
     yyeurgen.bribeGuard();
-    assert.equal(yyeurgen.imprisoned, false);
-    assert.equal(yyeurgen.gold, 0);
+    assert.equal(yyeurgen.suspicion, 0);
   });
 
   it('should be able to pickpocket only guard in prison', function() {
@@ -160,13 +176,49 @@ describe('Dragonborn', function() {
     assert.deepEqual(yyeurgen.pickPocket(theo), `Guess I'll be here a while...`);
   });
 
-  it.skip('should be able to gain gold/lose health during that pickpocket', function() {
+  it('should be able to gain gold/lose health when you pickpocket a guard', function() {
+    var yyeurgen = new Dragonborn({name: 'Yyeurgen'});
+    var theo = new Guard('Theodore', 'guard');
 
+    assert.equal(yyeurgen.health, 100);
+    yyeurgen.pickPocket(theo);
+    assert.equal(yyeurgen.health, 50);
+    yyeurgen.pickPocket(theo);
+    assert.equal(yyeurgen.health, 0);
   });
 
-  it.skip('should be alive by default, and die if health ever gets too low', function() {
+  it('should be alive by default, and die if health ever gets too low', function() {
+    var yyeurgen = new Dragonborn({name: 'Yyeurgen'});
+    var theo = new Guard('Theodore', 'guard');
 
+    assert.equal(yyeurgen.alive, true);
+    yyeurgen.pickPocket(theo);
+    yyeurgen.pickPocket(theo);
+    assert.equal(yyeurgen.health, 0);
+    assert.deepEqual(yyeurgen.pickPocket(theo), 'Our dear Yyeurgen has passed.');
   });
+
+  it('should still be dead', function() {
+    var jjorgen = new Dragonborn({name: 'Jjorgen'});
+    var dragon = new Dragon();
+    var bernie = new Person('Bernadette', 'noble');
+    var theo = new Guard('Theodore', 'guard');
+    var margo = new Person('Margo', 'scholar');
+
+    jjorgen.pickPocket(bernie);
+    jjorgen.pickPocket(bernie);
+    jjorgen.pickPocket(bernie);
+    assert.equal(jjorgen.imprisoned, true);
+    jjorgen.pickPocket(theo);
+    jjorgen.bribeGuard();
+    jjorgen.pickPocket(margo);
+    jjorgen.pickPocket(margo);
+    jjorgen.pickPocket(margo);
+    assert.deepEqual(jjorgen.killDragon(), 'Our dear Jjorgen has passed.');
+    assert.deepEqual(jjorgen.joinGuild('thieves'), 'Our dear Jjorgen has passed.');
+    assert.deepEqual(jjorgen.bribeGuard(), 'Our dear Jjorgen has passed.');
+  });
+
 
   it('should be able to join a guild', function() {
     var yyeurgen = new Dragonborn({name: 'Yyeurgen'});
@@ -193,4 +245,21 @@ describe('Dragonborn', function() {
 
 
   //should only be arrested if suspicion is high
+});
+
+
+describe('Guard', function() {
+  it('should be able to be a newbie or veteran guard', function() {
+    // var yyeurgen = new Dragonborn({name: 'Yyeurgen'});
+    var theo = new Guard('Theodore', 'guard');
+
+    assert.equal(theo.rank, 'newbie');
+    assert.equal(theo.arrowToTheKnee, false);
+    theo.toBattle();
+    theo.toBattle();
+    assert.equal(theo.rank, 'newbie');
+    theo.toBattle();
+    assert.equal(theo.rank, 'veteran');
+    assert.equal(theo.arrowToTheKnee, true);
+  });
 });
