@@ -13,6 +13,13 @@ class Guard {
       this.arrowToTheKnee = true;
     }
   }
+  exist() {
+    if (this.rank === 'newbie') {
+      return "Let me guess... Someone stole your sweetroll?";
+    } else if (this.rank === 'veteran') {
+      return "I used to be an adventurer like you, until I took an arrow to the knee.";
+    }
+  }
 }
 
 module.exports = Guard;

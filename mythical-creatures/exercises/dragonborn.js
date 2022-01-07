@@ -24,7 +24,6 @@ class Dragonborn {
       return `${target.name} isn't here right now.`;
     }
     if (target.socialClass === 'merchant') {
-      //lots of gold, takes some damage and raises suspicion
       this.gold += 100;
       this.suspicion += 25;
       this.riskImprisonment();
@@ -46,7 +45,6 @@ class Dragonborn {
       this.riskImprisonment();
       return 'OW! At least I got some scrolls to sell!';
     } else if (target.socialClass === 'underworld') {
-      //kicked out of guild //random chance to die
       this.riskImprisonment();
     } else if (target.socialClass === 'guard') {
       this.gold += 50;

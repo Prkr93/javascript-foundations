@@ -65,8 +65,6 @@ describe('Dragonborn', function() {
     var bernie = new Person('Bernadette', 'noble');
     var margo = new Person('Margo', 'scholar');
     var mertle = new Person('Mertle', 'merchant');
-    //var theo = new Guard('Theodore', 'guard');
-    //var shadow = new Person('Shadow', 'underworld');
 
     yyeurgen.pickPocket(emma);
     assert.equal(yyeurgen.gold, 25);
@@ -237,20 +235,16 @@ describe('Dragonborn', function() {
     assert.equal(yyeurgen.guilds.length, 1);
   });
 
+  //Pracite writing a test suite, or move on to Guard
   it.skip('should be thrown out of guild if victim is also in guild', function() {
     var yyeurgen = new Dragonborn({name: 'Yyeurgen'});
 
   });
-
-
-
-  //should only be arrested if suspicion is high
 });
 
 
 describe('Guard', function() {
   it('should be able to be a newbie or veteran guard', function() {
-    // var yyeurgen = new Dragonborn({name: 'Yyeurgen'});
     var theo = new Guard('Theodore', 'guard');
 
     assert.equal(theo.rank, 'newbie');
@@ -258,8 +252,10 @@ describe('Guard', function() {
     theo.toBattle();
     theo.toBattle();
     assert.equal(theo.rank, 'newbie');
+    assert.deepEqual(theo.exist(), "Let me guess... Someone stole your sweetroll?");
     theo.toBattle();
     assert.equal(theo.rank, 'veteran');
     assert.equal(theo.arrowToTheKnee, true);
+    assert.deepEqual(theo.exist(), "I used to be an adventurer like you, until I took an arrow to the knee.");
   });
 });
